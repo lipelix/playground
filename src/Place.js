@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 
-class Place extends Component {
-
-	getInitialState() {
-		return {
-			icon: '',
-			name: '-'
+class FindPlaceInput extends Component {
+	constructor() {
+		super();
+		this.state = {
+			value: 'blablaasd'
 		};
 	}
 
-	render() {
+	onTextChange() {
+		console.log('text changed');
+	}
+
+	render(onFind) {
 		return (
 		<div className="place">
-			<span className="placeName">{this.state.name}</span>
-			<img src={this.state.icon} alt="place icon" />
+			<input type="text" defaultValue={this.state.value} onChange={this.onTextChange} />
 		</div>
 		);
 	}
 
 };
 
-export default Place;
+export default FindPlaceInput;

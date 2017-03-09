@@ -1,106 +1,85 @@
 import React, { Component } from 'react';
-import FindPlaceInput from './Place'
-import request from 'superagent';
-import logo from './logo.svg';
+import PlaceAutosuggest from './components/PlaceAutosuggest/PlaceAutosuggest';
+import Map from './components/GMap/Map';
 import sampleData from './data.js';
 import './App.css';
 
-const apiUrl = (placeName, apiKey) => `https://maps.googleapis.com/maps/api/place/autocomplete/json?
-	input=${placeName}&
-	types=geocode&
-	language=cs_CZ&
-	key=${apiKey}`;
-
 class AppController extends Component {
-    state = {}
 
-    onLoad = () => {
-        this.startLoad();
+	constructor(props) {
+		super(props);
 
-        request.get(apiUrl('Anglick' ,'AIzaSyAswJC_4jBtW0rm_cVP1lb6Nbd5ePnCZIw'))
-		.set('Accept', 'application/json')
-		.then(res => this.dataLoaded(res.body))
-		.catch(error => this.loadError(error));
-    }
+		this.state = {
+			from: '',
+			to: '',
+			loading: false,
+			error: false
+		};
+	}
 
-    startLoad() {
-        this.setState({ loading: true });
-    }
+	onStartSelect = (e, cfg) => {
+		this.setState({
+			from: cfg.suggestion
+		});
+	}
 
-    dataLoaded(data) {
-        this.setState({
-            loading: false,
-            error: false,
-            data
-        });
-    }
+	onDestinationSelect = (e, cfg) => {
+		this.setState({
+			to: cfg.suggestion
+		});
+	}
 
-    loadError(error) {
-        this.setState({
-            loading: false,
-            error: error.message,
-            data: sampleData.predictions
-        });
-    }
+	startLoad() {
+		this.setState({
+			loading: true
+		});
+	}
 
-    onPlaceFindChange(newText) {
-	    this.setState({
-		findingPlace: true,
-		findPlaceName: newText
-	    });
+	dataLoaded(data) {
+		this.setState({
+			loading: false,
+			error: false,
+			data
+		});
+	}
 
-	    console.log('find', newText);
-    }
+	loadError(error) {
+		this.setState({
+			loading: false,
+			error: error.message,
+			data: sampleData.predictions
+		});
+	}
 
-    render() {
-        const { loading, error, data } = this.state;
+	findRoute() {
+		console.log('Find route: ', this.state.from.structured_formatting.main_text, ' -> ', this.state.to.structured_formatting.main_text);
+	}
 
-        return (
-            <AppComponent
-                loading={loading}
-                error={error}
-                data={data}
-                onLoad={this.onLoad}
-                onChange={this.onFindPlaceChange}
-            />
-        );
-    }
+	render() {
+
+		return (
+			<div className="app">
+				<PlaceAutosuggest placeholder='Start' onPlaceSelected={this.onStartSelect} />
+				<PlaceAutosuggest placeholder='Destination' onPlaceSelected={this.onDestinationSelect} />
+				<RouteInfo
+					from={this.state.from.structured_formatting ? this.state.from.structured_formatting.main_text : ''}
+					to={this.state.to.structured_formatting ? this.state.to.structured_formatting.main_text : ''} />
+				<Button text='Find' onClick={this.findRoute.bind(this)} />
+				<Map />
+			</div>
+			);
+	}
 };
 
-const ErrorMessage = ({ error }) => (
-    error ? <div className="alert">{ error }</div> : null
+const Button = ({ text, onClick }) => (
+	<input type='button' className='btn' onClick={onClick} value={text} />
 );
 
-const LoadingIndicator = ({ loading }) => (
-    loading ? <div className="loading">loading...</div> : null
+const RouteInfo = ({ from, to }) => (
+	<div>
+		<h2>Route</h2>
+		<span>{ from } &rarr; { to }</span>
+	</div>
 );
-
-const Place = ({ place }) => (
-    <div className="place">
-        <div className="placeTitle">{place.structured_formatting.main_text}</div>
-        <div>{place.structured_formatting.secondary_text}</div>
-    </div>
-);
-
-const PlaceList = ({ places }) => (
-    <div>
-        {
-            places.map(place => (
-                <Place key={place.place_id} place={place} />
-            ))
-        }
-    </div>
-);
-
-const AppComponent = ({ loading, error, data, onLoad, onPlaceFindChange }) => (
-    <div className="app">
-        <button onClick={onLoad} disabled={loading}>Load</button>
-	<FindPlaceInput onChange={onPlaceFindChange} />
-        <ErrorMessage error={error} />
-        <LoadingIndicator loading={loading} />
-        { data && <PlaceList places={data.predictions} /> }
-    </div>
-);
-
 
 export default AppController;

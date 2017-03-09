@@ -14,3 +14,15 @@
 .placeSubTitle {
 	font-size: 16px;
 }
+
+
+.over {
+	background-color: #dddddd;
+	cursor: pointer;
+}
+
+.btn {
+	min-height: 30px;
+	min-width: 100px;
+	padding: 10px;
+}

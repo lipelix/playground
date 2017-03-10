@@ -65,7 +65,7 @@ class AppController extends Component {
 					from={this.state.from.structured_formatting ? this.state.from.structured_formatting.main_text : ''}
 					to={this.state.to.structured_formatting ? this.state.to.structured_formatting.main_text : ''} />
 				<Button text='Find' onClick={this.findRoute.bind(this)} />
-				<Map />
+				<Map from={this.state.from} to={this.state.to}/>
 			</div>
 			);
 	}

@@ -105,10 +105,28 @@ class PlaceAutosuggest extends Component {
 			onChange: this.onChange
 		};
 
+		const theme = {
+			container: 'container',
+			containerOpen: 'container-open',
+			input: 'input',
+			inputOpen: 'input-open',
+			inputFocused: 'input-focused',
+			suggestionsContainer: 'suggestions-container',
+			suggestionsContainerOpen: 'suggestions-container-open',
+			suggestionsList: 'suggestions-list',
+			suggestion: 'suggestion',
+			suggestionFirst: 'suggestion-first',
+			suggestionHighlighted: 'suggestion-highlighted',
+			sectionContainer: 'section-container',
+			sectionContainerFirst: 'section-container-first',
+			sectionTitle: 'section-title'
+		};
+
 		return (
 			<div className='placeAutosuggest'>
 				{isLoading && <div className='loader'></div>}
 				<Autosuggest
+					theme={theme}
 					suggestions={suggestions}
 					onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 					onSuggestionsClearRequested={this.onSuggestionsClearRequested}

@@ -1,28 +1,21 @@
 .app {
-	font-family: 'Helvetica';
-	font-size: 14px;
-}
+  font-family: 'Helvetica';
+  font-size: 14px; }
 
 .place {
-	padding: 20px;
-}
+  padding: 20px; }
 
 .placeTitle {
-	font-size: 20px;
-}
+  font-size: 20px; }
 
 .placeSubTitle {
-	font-size: 16px;
-}
-
+  font-size: 16px; }
 
 .over {
-	background-color: #dddddd;
-	cursor: pointer;
-}
+  background-color: #dddddd;
+  cursor: pointer; }
 
 .btn {
-	min-height: 30px;
-	min-width: 100px;
-	padding: 10px;
-}
+  min-height: 30px;
+  min-width: 100px;
+  padding: 10px; }

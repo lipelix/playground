@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PlaceAutosuggest from './components/PlaceAutosuggest/PlaceAutosuggest';
 import Map from './components/GMap/Map';
+import Route from './components/Route/Route'
 import sampleData from './data.js';
 import './App.css';
 
@@ -12,8 +13,7 @@ class AppController extends Component {
 		this.state = {
 			from: '',
 			to: '',
-			loading: false,
-			error: false
+			routes: null
 		};
 	}
 
@@ -29,30 +29,15 @@ class AppController extends Component {
 		});
 	}
 
-	startLoad() {
+	changeRoutes = (routes) => {
+		console.log('Map routes changed', routes);
 		this.setState({
-			loading: true
+			routes: routes
 		});
 	}
 
-	dataLoaded(data) {
-		this.setState({
-			loading: false,
-			error: false,
-			data
-		});
-	}
-
-	loadError(error) {
-		this.setState({
-			loading: false,
-			error: error.message,
-			data: sampleData.predictions
-		});
-	}
-
-	findRoute() {
-		console.log('Find route: ', this.state.from.structured_formatting.main_text, ' -> ', this.state.to.structured_formatting.main_text);
+	findRoute = () => {
+		console.log('Find route: ' + this.state.from.structured_formatting.main_text + ' -> ' + this.state.to.structured_formatting.main_text);
 	}
 
 	render() {
@@ -61,11 +46,11 @@ class AppController extends Component {
 			<div className="app">
 				<PlaceAutosuggest placeholder='Start' onPlaceSelected={this.onStartSelect} />
 				<PlaceAutosuggest placeholder='Destination' onPlaceSelected={this.onDestinationSelect} />
-				<RouteInfo
-					from={this.state.from.structured_formatting ? this.state.from.structured_formatting.main_text : ''}
-					to={this.state.to.structured_formatting ? this.state.to.structured_formatting.main_text : ''} />
-				<Button text='Find' onClick={this.findRoute.bind(this)} />
-				<Map from={this.state.from} to={this.state.to}/>
+				{
+					this.state.routes && <Route route={this.state.routes[0]} />
+				}
+				<Button text='Find' onClick={this.findRoute} />
+				<Map from={this.state.from} to={this.state.to} onRoutesChanged={this.changeRoutes} />
 			</div>
 			);
 	}
@@ -73,13 +58,6 @@ class AppController extends Component {
 
 const Button = ({ text, onClick }) => (
 	<input type='button' className='btn' onClick={onClick} value={text} />
-);
-
-const RouteInfo = ({ from, to }) => (
-	<div>
-		<h2>Route</h2>
-		<span>{ from } &rarr; { to }</span>
-	</div>
 );
 
 export default AppController;

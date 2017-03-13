@@ -13,7 +13,9 @@ class Map extends Component {
 
 		this.state = {
 			map: null,
-			travelMode: 'TRANSIT'
+			travelMode: 'TRANSIT',
+			from: null,
+			to: null
 		};
 
 		this.directionsDisplay = null;
@@ -55,25 +57,35 @@ class Map extends Component {
 	setRoute() {
 		if (!this.props.from) {
 			console.log('No origin!');
+			return;
 		}
 
 		if (!this.props.to) {
 			console.log('No destination!');
+			return;
 		}
-//debugger;
+
 		this.directionsService.route({
 			origin: {'placeId': this.props.from.place_id},
 			destination: {'placeId': this.props.to.place_id},
 			travelMode: this.state.travelMode
 		}, (response, status) => {
-debugger;
+//debugger;
 			if (status === 'OK') {
 				this.directionsDisplay.setDirections(response);
+				this.props.onRoutesChanged(response.routes);
 			}
 			else {
 				console.log('Directions request failed due to ' + status);
+				this.props.onRoutesChanged([]);
 			}
 		});
+	}
+
+	componentDidUpdate = (prevProps, prevState) => {
+		if (prevProps.from !== this.props.from || prevProps.to !== this.props.to) {
+			this.setRoute();
+		}
 	}
 
 	render() {

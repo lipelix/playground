@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PlaceAutosuggest from './components/PlaceAutosuggest/PlaceAutosuggest';
 import Map from './components/GMap/Map';
 import Route from './components/Route/Route'
-import sampleData from './data.js';
 import './App.css';
 
 class AppController extends Component {
@@ -29,11 +28,12 @@ class AppController extends Component {
 		});
 	}
 
-	changeRoutes = (routes) => {
-		console.log('Map routes changed', routes);
+	changeRoutes = (routes) => {		
 		this.setState({
 			routes: routes
 		});
+
+		console.log('Map routes changed', this.state.routes);		
 	}
 
 	findRoute = () => {

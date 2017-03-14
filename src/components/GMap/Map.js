@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Gmaps, Marker, InfoWindow, Circle } from 'react-gmaps';
+import {Gmaps} from 'react-gmaps';
 
 const params = {
 	v: '3.exp',
@@ -51,7 +51,7 @@ class Map extends Component {
 	}
 
 	onClick(e) {
-		console.log('onClick', e);
+		console.log('onClick Map', e);
 	}
 
 	setRoute() {

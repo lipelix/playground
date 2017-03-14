@@ -1,0 +1,22 @@
+$fontBold: 600;
+
+.leg {
+
+    .total {
+
+        overflow: auto;
+        padding-bottom: 20px;
+
+        .duration {
+            font-weight: $fontBold;
+            float: left;
+        }
+
+        .distance {
+            font-weight: $fontBold;
+            float: right;
+        }           
+
+    }
+
+}

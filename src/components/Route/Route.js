@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-
-const Leg = ({ text }) => (
-	<span>{text}</span>
-);
+import Leg from './Leg'
 
 class Route extends Component {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			data: this.props.route
-		};
 	}
 
 	render() {
-		console.log(this.state.data);
+		console.log(this.props.route);
+		let legItems = [];
 
-		const legItems = this.state.data.legs.map((leg) =>
-			<Leg key={leg.start_address} text={leg.start_address} />
-		);
+		if (this.props.route) {
+			legItems = this.props.route.legs.map((leg) =>
+				<Leg 
+					key={leg.start_address} 
+					start={leg.start_address} 
+					end={leg.end_address}
+					departureTime={leg.departure_time}
+					arrivalTime={leg.arrival_time}
+					distance={leg.distance}
+					duration={leg.duration}
+				/>
+			);
+		}
 
 		return (
 			<div className='route'>

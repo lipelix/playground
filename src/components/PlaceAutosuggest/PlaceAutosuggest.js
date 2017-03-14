@@ -26,7 +26,8 @@ class PlaceAutosuggest extends Component {
 			value: '',
 			suggestions: [],
 			selectedPlace: null,
-			isLoading: false
+			isLoading: false,
+			error: null
 		};
 
 	}
@@ -69,8 +70,6 @@ class PlaceAutosuggest extends Component {
 		this.setState({
 			selectedPlace: suggestion
 		});
-
-		debugger;
 	};
 
 	onSuggestionsFetchRequested = ({ value }) => {
@@ -97,7 +96,7 @@ class PlaceAutosuggest extends Component {
 	}
 
 	render() {
-		const {value, suggestions, isLoading} = this.state;
+		const {value, suggestions, isLoading, error} = this.state;
 
 		const inputProps = {
 			placeholder: 'Type to find place',
@@ -125,6 +124,7 @@ class PlaceAutosuggest extends Component {
 		return (
 			<div className='placeAutosuggest'>
 				{isLoading && <div className='loader'></div>}
+				{error && <div className='error'>{error}</div>}
 				<Autosuggest
 					theme={theme}
 					suggestions={suggestions}

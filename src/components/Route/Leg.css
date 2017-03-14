@@ -1,0 +1,11 @@
+.leg .total {
+  overflow: auto;
+  padding-bottom: 20px; }
+
+.leg .total .duration {
+  font-weight: 600;
+  float: left; }
+
+.leg .total .distance {
+  font-weight: 600;
+  float: right; }
